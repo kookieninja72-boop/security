@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft Security Ultimate</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { scroll-behavior: smooth; }
+.card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+</style>
+</head>
+
+<body class="bg-black text-green-400 font-mono">
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+<h1 class="text-5xl font-bold text-center mb-4">🧠 Minecraft Security Ultimate</h1>
+<p class="text-center text-green-600 mb-10">Full interactive security + tutorial system</p>
+
+<div class="card bg-gray-900 rounded-2xl p-6 mb-6">
+<h2>📊 Security Dashboard</h2>
+<div class="w-full bg-gray-800 rounded-full h-4">
+<div id="bar" class="h-4 bg-green-500 rounded-full" style="width:0%"></div>
+</div>
+<p id="status"></p>
+</div>
+
+<div class="card bg-gray-900 rounded-2xl p-6 mb-6">
+<h2>✅ Audit Checklist</h2>
+<label><input type="checkbox" class="c"> 2FA enabled</label><br>
+<label><input type="checkbox" class="c"> Unique password</label><br>
+<label><input type="checkbox" class="c"> Email secured</label><br>
+<label><input type="checkbox" class="c"> No phishing activity</label><br>
+<label><input type="checkbox" class="c"> Safe downloads</label><br>
+<label><input type="checkbox" class="c"> Device protected</label>
+</div>
+
+<div class="card bg-gray-900 rounded-2xl p-6 mb-6">
+<h2>🔑 Password Analyzer</h2>
+<input id="pwd" type="password">
+<p id="pwdOut"></p>
+</div>
+
+<div class="card bg-gray-900 rounded-2xl p-6 mb-6">
+<h2>🔍 Phishing Analyzer</h2>
+<input id="url">
+<button onclick="scan()">Scan</button>
+<p id="urlOut"></p>
+</div>
+
+<button onclick="toggleTutorial()">📘 Show Tutorial</button>
+
+<div id="tutorial" style="display:none;">
+<h2>How to Secure Your Account</h2>
+<p>Enable 2FA, use strong passwords, avoid phishing, and only trust official sources.</p>
+</div>
+
+</div>
+
+<script>
+const boxes = document.querySelectorAll('.c');
+boxes.forEach(b => b.addEventListener('change', update));
+
+function update() {
+  let score = 0;
+  boxes.forEach(b => { if (b.checked) score++; });
+
+  let percent = (score / boxes.length) * 100;
+  document.getElementById('bar').style.width = percent + '%';
+
+  document.getElementById('status').innerText =
+    percent < 40 ? 'HIGH RISK' :
+    percent < 80 ? 'MEDIUM RISK' : 'LOW RISK';
+}
+
+document.getElementById('pwd').addEventListener('input', function() {
+  let v = this.value;
+  document.getElementById('pwdOut').innerText =
+    v.length < 6 ? 'Weak' :
+    v.length < 10 ? 'Medium' : 'Strong';
+});
+
+function scan() {
+  let u = document.getElementById('url').value.toLowerCase();
+  let result = u.includes('verify') ? '⚠️ Suspicious' : '✅ Safe';
+  document.getElementById('urlOut').innerText = result;
+}
+
+function toggleTutorial() {
+  let t = document.getElementById('tutorial');
+  t.style.display = t.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+</body>
+</html>
